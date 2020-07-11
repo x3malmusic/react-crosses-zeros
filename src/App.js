@@ -11,7 +11,6 @@ class App extends React.Component {
     showResultModal(false);
     switchClass(true);
     clearMarks();
-    this.forceUpdate();
   };
 
   render() {

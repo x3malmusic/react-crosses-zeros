@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { whatClassToGive } from "../../helper/whatClassToGive";
 import {
   switchClass,
   setMark,
@@ -10,15 +11,10 @@ import {
 import "./cell.scss";
 
 class Cell extends React.Component {
-  state = {
-    canClick: true,
-    giveClass: "",
-  };
-
   handleClick = async () => {
     this.setState({ canClick: false });
-    const { canClick } = this.state;
-    if (canClick) {
+    const { clicked } = this.props;
+    if (!clicked) {
       const {
         currentClass,
         switchClass,
@@ -28,20 +24,15 @@ class Cell extends React.Component {
         showResultModal,
         index,
       } = this.props;
-      this.setState({ giveClass: this.whatClassToGive(currentClass) });
       await setMark({ value: currentClass, position: index });
       const { playerMarks } = this.props;
       if (this.checkWin(currentClass, playerMarks, winningCombinations)) {
-        setMessage(`${this.whatClassToGive(currentClass)}'s wins`);
+        setMessage(`${whatClassToGive(currentClass)}'s wins`);
         showResultModal(true);
         return;
       }
       switchClass(!currentClass);
     } else return;
-  };
-
-  whatClassToGive = (currentClass) => {
-    return currentClass ? "x" : "circle";
   };
 
   checkWin = (currentClass, playerMarks, winningCombinations) => {
@@ -56,11 +47,9 @@ class Cell extends React.Component {
   };
 
   render() {
-    const { giveClass } = this.state;
+    const { mark } = this.props;
 
-    return (
-      <div className={`cell ${giveClass}`} onClick={this.handleClick}></div>
-    );
+    return <div className={`cell ${mark}`} onClick={this.handleClick}></div>;
   }
 }
 
