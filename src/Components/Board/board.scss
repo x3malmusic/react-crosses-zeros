@@ -1,0 +1,54 @@
+@import "./src/variables";
+
+.board {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(3, auto);
+
+  &.x .cell:not(.x):not(.circle):hover::before,
+  &.x .cell:not(.x):not(.circle):hover::after,
+  &.circle .cell:not(.x):not(.circle):hover::before {
+    background-color: lightgray;
+  }
+
+  &.x .cell:not(.x):not(.circle):hover::before,
+  &.x .cell:not(.x):not(.circle):hover::after {
+    content: '';
+    position: absolute;
+    width: calc(#{$mark-size} * .15);
+    height: $mark-size;
+  }
+
+  &.x .cell:not(.x):not(.circle):hover::before {
+    transform: rotate(45deg);
+  }
+
+  &.x .cell:not(.x):not(.circle):hover::after {
+    transform: rotate(-45deg);
+  }
+
+
+  &.circle .cell:not(.x):not(.circle):hover::before,
+  &.circle .cell:not(.x):not(.circle):hover::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  &.circle .cell:not(.x):not(.circle):hover::before {
+    width: $mark-size;
+    height: $mark-size;
+  }
+
+  &.circle .cell:not(.x):not(.circle):hover::after {
+    width: calc(#{$mark-size} * .7);
+    height: calc(#{$mark-size} * .7);
+    background-color: white;
+  }
+
+}

@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { connect } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Board from "./Components/Board/Board";
+import ResultModal from "./Components/ResultModal/ResultModal";
+import { showResultModal, switchClass, clearMarks } from "./redux/actions";
+
+class App extends React.Component {
+  restartGame = () => {
+    const { showResultModal, clearMarks } = this.props;
+    showResultModal(false);
+    switchClass(true);
+    clearMarks();
+    this.forceUpdate();
+  };
+
+  render() {
+    const { showModal, resultMessage } = this.props;
+
+    return (
+      <>
+        <Board />
+        <ResultModal
+          show={showModal}
+          message={resultMessage}
+          restartGame={this.restartGame}
+        />
+      </>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = ({ showModal, resultMessage }) => ({
+  showModal,
+  resultMessage,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  showResultModal: (show) => dispatch(showResultModal(show)),
+  switchClass: (current) => dispatch(switchClass(current)),
+  clearMarks: () => dispatch(clearMarks()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

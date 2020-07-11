@@ -1,0 +1,80 @@
+@import "./src/variables";
+
+
+.cell {
+  position: relative;
+  width: $cell-size;
+  height: $cell-size;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:first-child,
+  &:nth-child(2),
+  &:nth-child(3) {
+    border-top: none;
+  }
+
+  &:nth-child(3n + 1) {
+    border-left: none;
+  }
+
+  &:nth-child(3n + 3) {
+    border-right: none;
+  }
+
+  &:last-child,
+  &:nth-child(7),
+  &:nth-child(8) {
+    border-bottom: none;
+  }
+
+  &.x::before,
+  &.x::after {
+    content: '';
+    position: absolute;
+    width: calc(#{$mark-size} * .15);
+    height: $mark-size;
+    background-color: black;
+  }
+
+  &.x::before {
+    transform: rotate(45deg);
+  }
+
+  &.x::after {
+    transform: rotate(-45deg);
+  }
+
+  &.circle::before,
+  &.circle::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  &.circle::before {
+    width: $mark-size;
+    height: $mark-size;
+    background-color: black;
+  }
+
+  &.circle::after {
+    width: calc(#{$mark-size} * .7);
+    height: calc(#{$mark-size} * .7);
+    background-color: white;
+  }
+
+  &.x,
+  &.circle {
+    cursor: not-allowed;
+  }
+
+}
+
+
+
+
+
