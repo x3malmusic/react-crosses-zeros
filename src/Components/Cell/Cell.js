@@ -26,11 +26,19 @@ class Cell extends React.Component {
       } = this.props;
       await setMark({ value: currentClass, position: index });
       const { playerMarks } = this.props;
+
       if (this.checkWin(currentClass, playerMarks, winningCombinations)) {
         setMessage(`${whatClassToGive(currentClass)}'s wins`);
         showResultModal(true);
         return;
       }
+
+      if (this.checkDraw(playerMarks)) {
+        setMessage("draw");
+        showResultModal(true);
+        return;
+      }
+
       switchClass(!currentClass);
     } else return;
   };
@@ -44,6 +52,10 @@ class Cell extends React.Component {
         );
       });
     });
+  };
+
+  checkDraw = (playerMarks) => {
+    return playerMarks.every((mark) => mark !== undefined);
   };
 
   render() {
